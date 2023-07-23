@@ -7,20 +7,32 @@ package com.cos.security1.config.auth;
 // User 오브젝트 타입 => UserDetails 타입 객체
 
 import com.cos.security1.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 // 시큐리티가 가지고 있는 Security Session에 들어갈 수 있는 객체가 Authentication 객체다.
 // Authentication 안에 들어갈 수 있는 객체는 UserDatails 객체다.
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; // 콤포지션
+    private Map<String, Object> attributes;
 
+    // 일반 로그인
     public PrincipalDetails(User user) {
         this.user = user;
+    }
+
+    // OAuth 로그인
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
     }
 
     // 해당 유저의 권한을 리턴한다.
@@ -61,5 +73,16 @@ public class PrincipalDetails implements UserDetails {
         // 1년동안 로그인 안하면 휴면계정 하기로함.
         // 현재시간 - 로그인시간 => 1년 초과하면 return false; 이런걸 해줄 수 있다.
         return true;
+    }
+
+    @Override
+    public String getName() {
+//        return attributes.get("sub");
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 }

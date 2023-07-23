@@ -20,10 +20,9 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     // 시큐리티 session 안에는 Authentication 안에는 UserDetails 있다.
     // 시큐리티 session(내부 Authentication(내부 UserDetails))가 된다.
+    // 함수 종료 시 @AuthenticationPrincipal 어노테이션 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("loadUserByUsername @@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("email : "+email);
         User findUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("회원없음"));
 

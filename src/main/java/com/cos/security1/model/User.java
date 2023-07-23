@@ -1,8 +1,6 @@
 package com.cos.security1.model;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
+@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
@@ -31,6 +30,10 @@ public class User {
 
     private LocalDateTime lastLoginDate;
 
+    private String provider; // google, naver ...
+
+    private String providerId;
     @CreatedDate
     private LocalDateTime createDate;
+
 }
